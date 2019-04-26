@@ -311,29 +311,17 @@
       {{/unless}}
 
       {{#if showCreateForm}}
-      <div id="root">
+        <div id="root">
          <div class="main">
             <div class="main__signup main__create-account">
                <h1 class="main__signin--greeting">Create account</h1>
                <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9" type="text" aria-label="Description" value="username"></div>
                <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9 MuiInputBase-inputType-27 MuiInput-inputType-12" type="email" aria-label="Description" value="corporate email"></div>
-               <div>
-                  <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 MuiInputBase-disabled-17 MuiInput-disabled-4" style="color: rgb(242, 242, 242); border-bottom: 0.25em solid rgb(242, 242, 242); width: 60vw; height: 5vh;">
-                     <div class="MuiSelect-root-31">
-                        <div class="MuiSelect-select-32 MuiSelect-selectMenu-35 MuiSelect-disabled-36 MuiInputBase-input-24 MuiInput-input-9 MuiInputBase-disabled-17 MuiInput-disabled-4" aria-pressed="false" role="button" aria-haspopup="true" id="select-role">IT Manager</div>
-                        <input name="role" type="hidden" id="role-simple" value="10">
-                        <svg class="MuiSvgIcon-root-38 Styled-pure-ExpandMoreIcon---root-7ievng MuiSelect-icon-37" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
-                           <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-                           <path fill="none" d="M0 0h24v24H0z"></path>
-                        </svg>
-                     </div>
-                  </div>
-               </div>
                <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9" type="text" aria-label="Description" value="password"></div>
                <button class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signup--button main__create-acount-button " tabindex="0" type="button"><span class="MuiButton-label-52">sign up</span><span class="MuiTouchRipple-root-88"></span></button>
             </div>
             <div class="main__signin main__welcome-back">
-               <div class="main__signin--header main__welcome-back-header"><img class="main__signin--logo" src="/gamelogin/logo-onboarding.becef846.png"></div>
+               <div class="main__signin--header main__welcome-back-header"><img class="main__signin--logo" src="http://localhost:8081/gamelogin/logo-onboarding.becef846.png"></div>
                <div class="main__signin--main main__welsome-back-main">
                   <h1 class="main__signup--greeting">Welcome back!</h1>
                   <button class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signin--button main__welcome-back-button" tabindex="0" type="button"><span class="MuiButton-label-52">sign in</span><span class="MuiTouchRipple-root-88"></span></button>
@@ -341,105 +329,6 @@
             </div>
             <div></div>
          </div>
-      </div>
-        <div class="login-form">
-          <form>
-          <table>
-
-          <tr class="input create-account-email">
-                <td class="label"><label for='new-account-email'>{{i18n 'user.email.title'}}</label></td>
-                <td>
-                {{input type="email" value=accountEmail id="new-account-email" disabled=emailValidated name="email" autofocus="autofocus"}}
-                </td>
-          </tr>
-
-          <tr class="instructions create-account-email">
-            <td></td>
-                {{input-tip validation=emailValidation id="account-email-validation"}}
-                <td><label>{{i18n 'user.email.instructions'}}</label></td>
-          </tr>
-
-          {{#if usernameRequired}}
-            <tr class="input">
-                  <td class="label"><label for='new-account-username'>{{i18n 'user.username.title'}}</label></td>
-                  <td>
-                  {{input value=accountUsername id="new-account-username" name="username" maxlength=maxUsernameLength autocomplete="discourse"}}
-                  </td>
-            </tr>
-            <tr class="instructions">
-              <td></td>
-              {{input-tip validation=usernameValidation id="username-validation"}}
-              <td><label>{{i18n 'user.username.instructions'}}</label></td>
-            </tr>
-          {{/if}}
-
-          {{#if fullnameRequired}}
-            <tr class="input">
-              <td class="label">
-                <label for='new-account-name'>{{i18n 'user.name.title'}}</label>
-              </td>
-              <td>
-                {{text-field value=accountName id="new-account-name"}}
-              </td>
-            </tr>
-            <tr class="instructions">
-              <td></td>
-              {{input-tip validation=nameValidation}}
-              <td><label>{{nameInstructions}}</label></td>
-            </tr>
-          {{/if}}
-
-          {{plugin-outlet name="create-account-before-password"
-                          noTags=true
-                          args=(hash accountName=accountName
-                                     accountUsername=accountUsername
-                                     accountPassword=accountPassword
-                                     userFields=userFields)}}
-
-          {{#if passwordRequired}}
-            <tr class="input">
-                <td class="label"><label for='new-account-password'>{{i18n 'user.password.title'}}</label></td>
-                <td>
-                {{password-field value=accountPassword type="password" id="new-account-password" capsLockOn=capsLockOn}}
-                </td>
-            </tr>
-            <tr class="instructions">
-              <td></td>
-              {{input-tip validation=passwordValidation}}
-              <td>
-                <label>{{passwordInstructions}}</label>
-                <div class="caps-lock-warning {{unless capsLockOn 'hidden'}}">
-                  {{d-icon "exclamation-triangle"}} {{i18n 'login.caps_lock_warning'}}</div>
-              </td>
-            </tr>
-          {{/if}}
-
-          <tr class="password-confirmation">
-            <td><label for='new-account-password-confirmation'>{{i18n 'user.password_confirmation.title'}}</label></td>
-            <td>
-              {{input type="password" value=accountPasswordConfirm id="new-account-confirmation" autocomplete="new-password"}}
-              {{input value=accountChallenge id="new-account-challenge"}}
-            </td>
-          </tr>
-
-          {{plugin-outlet name="create-account-after-password"
-                          noTags=true
-                          args=(hash accountName=accountName
-                                     accountUsername=accountUsername
-                                     accountPassword=accountPassword
-                                     userFields=userFields)}}
-
-          </table>
-
-          {{#if userFields}}
-            <div class='user-fields'>
-              {{#each userFields as |f|}}
-                {{user-field field=f.field value=f.value}}
-              {{/each}}
-            </div>
-          {{/if}}
-
-          </form>
         </div>
       {{/if}}
 
@@ -447,11 +336,8 @@
 
     {{#if showCreateForm}}
       <div class="modal-footer">
-        <button class='btn btn-large btn-primary' disabled={{submitDisabled}} {{action "createAccount"}}>{{i18n 'create_account.title'}}</button>
-
         {{#conditional-loading-spinner condition=formSubmitted size="small"}}
           {{#d-button class="btn btn-large" id="login-link" action=(route-action "showLogin")}}
-            {{i18n "log_in"}}
           {{/d-button}}
         {{/conditional-loading-spinner}}
 
