@@ -320,7 +320,7 @@ login:
     client: true
     default: true
   enable_local_logins_via_email:
-    client: true
+    client: false
     default: true
     validator: "EnableLocalLoginsViaEmailValidator"
   allow_new_registrations:

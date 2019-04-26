@@ -32,7 +32,7 @@ export default Ember.Controller.extend(ModalFunctionality, {
   awaitingApproval: false,
 
   canLoginLocal: setting("enable_local_logins"),
-  canLoginLocalWithEmail: setting("enable_local_logins_via_email"),
+  canLoginLocalWithEmail: false,
   loginRequired: Ember.computed.alias("application.loginRequired"),
   secondFactorMethod: SECOND_FACTOR_METHODS.TOTP,
 
