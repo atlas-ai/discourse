@@ -304,7 +304,7 @@
 
 {{#create-account email=accountEmail disabled=submitDisabled action=(action "createAccount")}}
   {{#unless complete}}
-    {{#d-modal-body title="create_account.title" class=(concat (if hasAtLeastOneLoginButton "has-alt-auth") " " (if userFields "has-user-fields"))}}
+    {{#d-modal-body class=(concat (if hasAtLeastOneLoginButton "has-alt-auth") " " (if userFields "has-user-fields"))}}
 
       {{#unless hasAuthOptions}}
         {{login-buttons externalLogin=(action "externalLogin")}}
@@ -314,17 +314,17 @@
         <div id="root">
          <div class="main">
             <div class="main__signup main__create-account">
-               <h1 class="main__signin--greeting">Create account</h1>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input value=accountUsername id="new-account-username" name="username" maxlength=maxUsernameLength autocomplete="discourse" placeholder="username"}}</div>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input type="email" value=accountEmail id="new-account-email" disabled=emailValidated name="email" autofocus="autofocus" placeholder="corporate email"}}</div>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{password-field value=accountPassword type="password" id="new-account-password" capsLockOn=capsLockOn placeholder="********"}}</div>
-               <button {{action "createAccount"}} class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signup--button main__create-acount-button " tabindex="0" type="button"><span class="MuiButton-label-52">sign up</span><span class="MuiTouchRipple-root-88"></span></button>
+               <h1 class="main__signin--greeting">创建登陆账号</h1>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input value=accountUsername id="new-account-username" name="username" maxlength=maxUsernameLength autocomplete="discourse" placeholder="用户名"}}</div>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input type="email" value=accountEmail id="new-account-email" disabled=emailValidated name="email" autofocus="autofocus" placeholder="公司邮箱"}}</div>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{password-field value=accountPassword type="password" id="new-account-password" capsLockOn=capsLockOn placeholder="密码"}}</div>
+               <button {{action "createAccount"}} class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signup--button main__create-acount-button " tabindex="0" type="button"><span class="MuiButton-label-52">注册</span><span class="MuiTouchRipple-root-88"></span></button>
             </div>
             <div class="main__signin main__welcome-back">
                <div class="main__signin--header main__welcome-back-header"><img class="main__signin--logo" src="http://localhost:8081/gamelogin/logo-onboarding.becef846.png"></div>
                <div class="main__signin--main main__welsome-back-main">
-                  <h1 class="main__signup--greeting">Welcome back!</h1>
-                  <button class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signin--button main__welcome-back-button" tabindex="0" type="button"><span class="MuiButton-label-52">sign in</span><span class="MuiTouchRipple-root-88"></span></button>
+                  <h1 class="main__signup--greeting">欢迎回来！</h1>
+                  <button class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signin--button main__welcome-back-button" tabindex="0" type="button"><span class="MuiButton-label-52">登陆</span><span class="MuiTouchRipple-root-88"></span></button>
                </div>
             </div>
             <div></div>
