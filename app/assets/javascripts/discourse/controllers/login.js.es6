@@ -132,10 +132,10 @@ export default Ember.Controller.extend(ModalFunctionality, {
         console.log('login success:',jsonResponse.user);
         console.log(jsonResponse);
 
-        window.localStorage.setItem('user', JSON.stringify(jsonResponse.user));
-        document.cookie = `user=${JSON.stringify(jsonResponse.user)}`;
-        window.localStorage.setItem('apiKey', JSON.stringify(jsonResponse.api_key));
-        document.cookie = `apiKey=${JSON.stringify(jsonResponse.api_key)}`;
+        window.localStorage.setItem('user', JSON.stringify(jsonResponse.username));
+        document.cookie = `user=${JSON.stringify(jsonResponse.user.username)}`;
+        window.localStorage.setItem('apiKey', JSON.stringify(jsonResponse.api_key.key));
+        document.cookie = `apiKey=${JSON.stringify(jsonResponse.api_key.key)}`;
         console.log(document.cookie);
       })
       .catch((error) => console.error(error));
