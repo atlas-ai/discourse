@@ -315,10 +315,10 @@
          <div class="main">
             <div class="main__signup main__create-account">
                <h1 class="main__signin--greeting">Create account</h1>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9" type="text" aria-label="Description" value="username"></div>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9 MuiInputBase-inputType-27 MuiInput-inputType-12" type="email" aria-label="Description" value="corporate email"></div>
-               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3"><input class="MuiInputBase-input-24 MuiInput-input-9" type="text" aria-label="Description" value="password"></div>
-               <button class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signup--button main__create-acount-button " tabindex="0" type="button"><span class="MuiButton-label-52">sign up</span><span class="MuiTouchRipple-root-88"></span></button>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input value=accountUsername id="new-account-username" name="username" maxlength=maxUsernameLength autocomplete="discourse" placeholder="username"}}</div>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{input type="email" value=accountEmail id="new-account-email" disabled=emailValidated name="email" autofocus="autofocus" placeholder="corporate email"}}</div>
+               <div class="MuiInputBase-root-14 MuiInput-root-1 MuiInput-underline-5 Styled-WithStyles-Input---root-1jbz4b3">{{password-field value=accountPassword type="password" id="new-account-password" capsLockOn=capsLockOn placeholder="********"}}</div>
+               <button {{action "createAccount"}} class="MuiButtonBase-root-77 MuiButton-root-51 MuiButton-outlined-59 MuiButton-outlinedPrimary-60 MuiButton-sizeLarge-75 main__signup--button main__create-acount-button " tabindex="0" type="button"><span class="MuiButton-label-52">sign up</span><span class="MuiTouchRipple-root-88"></span></button>
             </div>
             <div class="main__signin main__welcome-back">
                <div class="main__signin--header main__welcome-back-header"><img class="main__signin--logo" src="http://localhost:8081/gamelogin/logo-onboarding.becef846.png"></div>
