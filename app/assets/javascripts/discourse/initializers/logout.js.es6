@@ -15,21 +15,7 @@ export default {
     }
 
     messageBus.subscribe("/logout", function() {
-      if (!_showingLogout) {
-        _showingLogout = true;
-
-        bootbox.dialog(
-          I18n.t("logout"),
-          {
-            label: I18n.t("refresh"),
-            callback: logout
-          },
-          {
-            onEscape: logout,
-            backdrop: "static"
-          }
-        );
-      }
+      window.location.href = 'http://localhost:8081/landing-page/logout/'
     });
   }
 };
