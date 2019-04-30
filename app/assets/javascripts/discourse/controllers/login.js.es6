@@ -18,6 +18,58 @@ const AuthErrors = [
   "not_allowed_from_ip_address"
 ];
 
+function generateApiKey(userid, username) {
+  const API_KEY = '45196078dc4f95cd3147116a070be24494cd88990847027e56dfb100ed0aa428';
+  const API_USERNAME = 'hydrandt1';
+  const generate_api_key_url = `/admin/users/${userid}/generate_api_key`;
+  const api_username = 'api_username=' + API_USERNAME;
+  const api_key = 'api_key=' + API_KEY;
+  const baseUrl = 'https://dixi.atlasaitech.com';
+  const url = baseUrl + generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${username}`;
+  const options = {
+    method: 'POST',
+  }
+  fetch(url, options)
+  .then((response) => {
+    return response.json();
+  })
+  .then((jsonResponse) => {
+    redirectScoreboard(username, jsonResponse.api_key.key);
+  })
+  .catch(error => console.error(error));
+}
+
+function redirectScoreboard(user, apiKey) {
+  window.location.href = `http://localhost:8081/landing-page/${user}/${apiKey}`;
+}
+
+function getApiKeyAndUser(login, password) {
+  const url = 'http://localhost:8081/api/signin/account/';
+  const options = {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "login": login,
+      "password": password,
+    }),
+  };
+  fetch(url, options)
+  .then((response) => response.json())
+  .then((jsonResponse) => {
+    if ('errors' in jsonResponse || 'error' in jsonResponse) {
+      const errorMessage = jsonResponse.errors || jsonResponse.error;
+      return console.warn('login failure:',errorMessage);
+    }
+    console.log('login success:',jsonResponse.user);
+    console.log(jsonResponse);
+
+    redirectScoreboard(jsonResponse.user.username, jsonResponse.api_key.key);
+  })
+  .catch((error) => console.error(error));
+}
+
 export default Ember.Controller.extend(ModalFunctionality, {
   createAccount: Ember.inject.controller(),
   forgotPassword: Ember.inject.controller(),
@@ -110,35 +162,8 @@ export default Ember.Controller.extend(ModalFunctionality, {
       }
 
       this.set("loggingIn", true);
-
-      const url = 'http://localhost:8081/api/signin/account/';
-      const options = {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "login": this.get("loginName"),
-          "password": this.get("loginPassword"),
-        }),
-      };
-      fetch(url, options)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        if ('errors' in jsonResponse || 'error' in jsonResponse) {
-          const errorMessage = jsonResponse.errors || jsonResponse.error;
-          return console.warn('login failure:',errorMessage);
-        }
-        console.log('login success:',jsonResponse.user);
-        console.log(jsonResponse);
-
-        window.localStorage.setItem('user', JSON.stringify(jsonResponse.username));
-        document.cookie = `user=${JSON.stringify(jsonResponse.user.username)}`;
-        window.localStorage.setItem('apiKey', JSON.stringify(jsonResponse.api_key.key));
-        document.cookie = `apiKey=${JSON.stringify(jsonResponse.api_key.key)}`;
-        console.log(document.cookie);
-      })
-      .catch((error) => console.error(error));
+      const user = this.get('loginName');
+      const password = this.get('loginPassword');
 
       ajax("/session", {
         type: "POST",
@@ -184,6 +209,7 @@ export default Ember.Controller.extend(ModalFunctionality, {
             }
           } else {
             self.set("loggedIn", true);
+            const apiKey = generateApiKey(result.user.id, result.user.username);
             // Trigger the browser's password manager using the hidden static login form:
             const $hidden_login_form = $("#hidden-login-form");
             const destinationUrl = $.cookie("destination_url");
@@ -210,19 +236,6 @@ export default Ember.Controller.extend(ModalFunctionality, {
                 .find("input[name=redirect]")
                 .val(window.location.href);
             }
-
-            if (
-              navigator.userAgent.match(/(iPad|iPhone|iPod)/g) &&
-              navigator.userAgent.match(/Safari/g)
-            ) {
-              // In case of Safari on iOS do not submit hidden login form
-              window.location.href = $hidden_login_form
-                .find("input[name=redirect]")
-                .val();
-            } else {
-              $hidden_login_form.submit();
-            }
-            return;
           }
         },
         function(e) {
