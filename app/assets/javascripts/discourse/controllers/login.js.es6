@@ -18,15 +18,15 @@ const AuthErrors = [
   "not_allowed_from_ip_address"
 ];
 
-function generateApiKey(userid, username) {
-  const API_KEY = '45196078dc4f95cd3147116a070be24494cd88990847027e56dfb100ed0aa428';
+function redirectScoreboard(userid, login, password='majorsapp1234') {
+  const API_KEY = 'cb3c330ebb141de75316bb8c8e025a9f7491b97d9f63b43840cb083dc5ac631c';
   const API_USERNAME = 'hydrandt1';
   const generate_api_key_url = `/admin/users/${userid}/generate_api_key`;
   const api_username = 'api_username=' + API_USERNAME;
   const api_key = 'api_key=' + API_KEY;
-  const baseUrl = 'https://dixi.atlasaitech.com';
-  const url = baseUrl + generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${username}`;
-  const options = {
+  const baseUrl = 'http://localhost:9292/';
+  const url = baseUrl + generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
+  let options = {
     method: 'POST',
   }
   fetch(url, options)
@@ -34,40 +34,37 @@ function generateApiKey(userid, username) {
     return response.json();
   })
   .then((jsonResponse) => {
-    redirectScoreboard(username, jsonResponse.api_key.key);
+    const apiKey = jsonResponse.api_key.key;
+    // get token
+    options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
+    fetch('http://localhost:9292/session/csrf', options)
+    .then(response => {return response.json();})
+    .then(jsonResponse => {
+      // get session
+      let csrf = jsonResponse.csrf;
+      options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrf,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({
+          login,
+          password,
+        }),
+      };
+      fetch('http://localhost:9292/session/', options)
+      .then(response => {return response.json()})
+      .then(jsonResponse => {
+        csrf = encodeURIComponent(csrf);
+        window.location.href = `http://localhost:8081/landing-page/${login}/${apiKey}/${csrf}`;
+      })
+      .catch(error => console.error(error));
+    })
+    .catch(error => console.error(error));
   })
   .catch(error => console.error(error));
-}
-
-function redirectScoreboard(user, apiKey) {
-  window.location.href = `http://localhost:8081/landing-page/${user}/${apiKey}`;
-}
-
-function getApiKeyAndUser(login, password) {
-  const url = 'http://localhost:8081/api/signin/account/';
-  const options = {
-    method: 'POST',
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      "login": login,
-      "password": password,
-    }),
-  };
-  fetch(url, options)
-  .then((response) => response.json())
-  .then((jsonResponse) => {
-    if ('errors' in jsonResponse || 'error' in jsonResponse) {
-      const errorMessage = jsonResponse.errors || jsonResponse.error;
-      return console.warn('login failure:',errorMessage);
-    }
-    console.log('login success:',jsonResponse.user);
-    console.log(jsonResponse);
-
-    redirectScoreboard(jsonResponse.user.username, jsonResponse.api_key.key);
-  })
-  .catch((error) => console.error(error));
 }
 
 export default Ember.Controller.extend(ModalFunctionality, {
@@ -209,33 +206,7 @@ export default Ember.Controller.extend(ModalFunctionality, {
             }
           } else {
             self.set("loggedIn", true);
-            const apiKey = generateApiKey(result.user.id, result.user.username);
-            // Trigger the browser's password manager using the hidden static login form:
-            const $hidden_login_form = $("#hidden-login-form");
-            const destinationUrl = $.cookie("destination_url");
-            const ssoDestinationUrl = $.cookie("sso_destination_url");
-            $hidden_login_form
-              .find("input[name=username]")
-              .val(self.get("loginName"));
-            $hidden_login_form
-              .find("input[name=password]")
-              .val(self.get("loginPassword"));
-
-            if (ssoDestinationUrl) {
-              $.removeCookie("sso_destination_url");
-              window.location.assign(ssoDestinationUrl);
-              return;
-            } else if (destinationUrl) {
-              // redirect client to the original URL
-              $.removeCookie("destination_url");
-              $hidden_login_form
-                .find("input[name=redirect]")
-                .val(destinationUrl);
-            } else {
-              $hidden_login_form
-                .find("input[name=redirect]")
-                .val(window.location.href);
-            }
+            const apiKey = redirectScoreboard(result.user.id, result.user.username);
           }
         },
         function(e) {
