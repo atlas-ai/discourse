@@ -15,7 +15,7 @@ export default {
     }
 
     messageBus.subscribe("/logout", function() {
-      window.location.href = 'http://localhost:8081/landing-page/logout/'
+      logout('http://localhost:8081/landing-page/logout/');
     });
   }
 };
