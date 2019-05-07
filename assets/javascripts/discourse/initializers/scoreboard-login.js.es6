@@ -11,12 +11,28 @@ function signout(username) {
   .catch(error => console.error(error));
 }
 
+function showLogin(api) {
+  this.register.lookup("route:application").send("showLogin");
+}
+
 export default {
   name: 'Atlas-ai changing the world',
   initialize() {
     withPluginApi('0.1', api => {
+      // api.modifyClass('widget:header', {
+      //   actions: {
+      //     newActionHere() { }
+      //   }
+      // });
+      // api.createWidget('customLogin', {
+      //   actions: {
+      //     newActionHere() { }
+      //   }
+      // });
+
       const user = api.getCurrentUser();
       if (window.location.search.match(/\?logout/)) return signout(user);
+      // if (window.location.search.match(/\?login/)) return showLogin(api);
      	api.onPageChange(() => {
      		console.log('user navigated!');
      		if (!user) return;
