@@ -203,7 +203,7 @@ GEM
     method_source (0.8.2)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.4)
+    mini_racer (0.2.5)
       libv8 (>= 6.3)
     mini_scheduler (0.9.1)
       sidekiq
