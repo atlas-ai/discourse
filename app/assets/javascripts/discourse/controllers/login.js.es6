@@ -57,8 +57,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
       fetch('http://localhost:9292/session/', options)
       .then(response => {return response.json()})
       .then(jsonResponse => {
-        csrf = encodeURIComponent(csrf);
-        window.location.href = `http://localhost:8081/landing-page/${login}/${apiKey}/${csrf}`;
+        window.location.href = `http://localhost:8081/landing-page/${login}/${apiKey}/`;
       })
       .catch(error => console.error(error));
     })
