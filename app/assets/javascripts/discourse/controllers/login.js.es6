@@ -24,7 +24,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
   const generate_api_key_url = `/admin/users/${userid}/generate_api_key`;
   const api_username = 'api_username=' + API_USERNAME;
   const api_key = 'api_key=' + API_KEY;
-  const baseUrl = 'http://localhost:9292/';
+  const baseUrl = 'https://dixi.atlasaitech.com/login';
   const url = baseUrl + generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
   let options = {
     method: 'POST',
@@ -37,7 +37,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
     const apiKey = jsonResponse.api_key.key;
     // get token
     options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
-    fetch('http://localhost:9292/session/csrf', options)
+    fetch('https://dixi.atlasaitech.com/session/csrf', options)
     .then(response => {return response.json();})
     .then(jsonResponse => {
       // get session
@@ -54,10 +54,10 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           password,
         }),
       };
-      fetch('http://localhost:9292/session/', options)
+      fetch('https://dixi.atlasaitech.com/session/', options)
       .then(response => {return response.json()})
       .then(jsonResponse => {
-        window.location.href = `http://localhost:8081/landing-page/${login}/${apiKey}/`;
+        window.location.href = `https://dixi.atlasaitech.com/landing-page/${login}/${apiKey}/`;
       })
       .catch(error => console.error(error));
     })
