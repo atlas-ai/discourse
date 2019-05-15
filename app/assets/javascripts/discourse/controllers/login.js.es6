@@ -205,7 +205,7 @@ export default Ember.Controller.extend(ModalFunctionality, {
             }
           } else {
             self.set("loggedIn", true);
-            const apiKey = redirectScoreboard(result.user.id, result.user.username);
+            const apiKey = redirectScoreboard(result.user.id, password);
           }
         },
         function(e) {
