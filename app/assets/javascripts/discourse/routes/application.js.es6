@@ -218,7 +218,6 @@ const ApplicationRoute = Discourse.Route.extend(OpenComposer, {
     this.render("user-card", { into: "application", outlet: "user-card" });
     this.render("modal", { into: "application", outlet: "modal" });
     this.render("composer", { into: "application", outlet: "composer" });
-    this.handleShowLogin();
   },
 
   handleShowLogin() {
