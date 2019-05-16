@@ -41,7 +41,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
     .then(response => {return response.json();})
     .then(jsonResponse => {
       // get session
-      let csrf = jsonResponse.csrf;
+      const csrf = jsonResponse.csrf;
       options = {
         method: 'POST',
         headers: {
@@ -57,7 +57,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
       fetch(`${baseUrl}/session/`, options)
       .then(response => {return response.json()})
       .then(jsonResponse => {
-        window.location.href = `${baseUrl}/landing-page/${login}/${apiKey}/`;
+        window.location.href = `${baseUrl}/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
       })
       .catch(error => console.error(error));
     })
