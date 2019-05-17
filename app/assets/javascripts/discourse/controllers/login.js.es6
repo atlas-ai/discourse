@@ -144,6 +144,16 @@ export default Ember.Controller.extend(ModalFunctionality, {
 
   actions: {
     login() {
+      if (window.localStorage) {
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('apikey');
+        window.localStorage.removeItem('csrf');
+      } else {
+        window.sessionStorage.removeItem('user');
+        window.sessionStorage.removeItem('apikey');
+        window.sessionStorage.removeItem('csrf');
+      }
+
       const self = this;
       if (this.get("loginDisabled")) {
         return;
@@ -205,7 +215,7 @@ export default Ember.Controller.extend(ModalFunctionality, {
             }
           } else {
             self.set("loggedIn", true);
-            const apiKey = redirectScoreboard(result.user.id, user, password);
+            redirectScoreboard(result.user.id, user, password);
           }
         },
         function(e) {

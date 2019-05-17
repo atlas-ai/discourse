@@ -266,7 +266,18 @@ const ApplicationRoute = Discourse.Route.extend(OpenComposer, {
     if (this.currentUser) {
       this.currentUser
         .destroySession()
-        .then(() => logout(this.siteSettings, this.keyValueStore));
+        .then(() => {
+          if (window.localStorage) {
+            window.localStorage.removeItem('user');
+            window.localStorage.removeItem('apikey');
+            window.localStorage.removeItem('csrf');
+          } else {
+            window.sessionStorage.removeItem('user');
+            window.sessionStorage.removeItem('apikey');
+            window.sessionStorage.removeItem('csrf');
+          }
+          logout(this.siteSettings, this.keyValueStore)
+        });
     }
   }
 });
