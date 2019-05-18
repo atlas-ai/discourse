@@ -41,6 +41,13 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
     .then(jsonResponse => {
       // get session
       const csrf = jsonResponse.csrf;
+      if (window.localStorage) {
+        window.localStorage.setItem('csrf', csrf);
+        window.localStorage.setItem('user', login);
+      } else {
+        window.sessionStorage.csrf = csrf;
+        window.sessionStorage.user = login;
+      }
       options = {
         method: 'POST',
         headers: {
