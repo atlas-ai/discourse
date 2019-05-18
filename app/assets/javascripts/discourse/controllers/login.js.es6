@@ -21,11 +21,10 @@ const AuthErrors = [
 function redirectScoreboard(userid, login, password='majorsapp1234') {
   const API_KEY = '9db6eee1b21c5f55b69f1844706d0c27ce1eecf0a0967fd0b07488ce24fe94b8';
   const API_USERNAME = 'hydrandt1';
-  const baseUrl = 'https://staging-dixi.atlasaitech.com';
   const generate_api_key_url = `/admin/users/${userid}/generate_api_key`;
   const api_username = 'api_username=' + API_USERNAME;
   const api_key = 'api_key=' + API_KEY;
-  const url = baseUrl + generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
+  const url = generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
   let options = {
     method: 'POST',
   }
@@ -37,7 +36,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
     const apiKey = jsonResponse.api_key.key;
     // get token
     options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
-    fetch(`${baseUrl}/session/csrf`, options)
+    fetch(`/session/csrf`, options)
     .then(response => {return response.json();})
     .then(jsonResponse => {
       // get session
@@ -54,10 +53,10 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           password,
         }),
       };
-      fetch(`${baseUrl}/session/`, options)
+      fetch(`/session/`, options)
       .then(response => {return response.json()})
       .then(jsonResponse => {
-        window.location.href = `${baseUrl}/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
+        window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
       })
       .catch(error => console.error(error));
     })

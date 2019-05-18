@@ -15,7 +15,7 @@ export default {
     }
 
     messageBus.subscribe("/logout", function() {
-      logout('https://staging-dixi.atlasaitech.com/landing-page/logout/');
+      logout('/landing-page/logout/');
     });
   }
 };
