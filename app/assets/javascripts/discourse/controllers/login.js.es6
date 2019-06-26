@@ -58,10 +58,11 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           'X-CSRF-Token': csrf,
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: JSON.stringify({
+        dataType: 'json',
+        data:{
           login,
           password,
-        }),
+        },
       };
       // fetch(`/session/`, options)
       // .then(response => {return response.json()})
