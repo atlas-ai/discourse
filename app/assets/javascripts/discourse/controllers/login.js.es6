@@ -26,52 +26,49 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
   const api_key = 'api_key=' + API_KEY;
   const url = generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
   
+  let apiKey = ''
+  let csrf = ''
   // fetch(url, options)
   // .then((response) => {
   //   return response.json();
   // })
   ajax(url, { type: 'POST'})
-  .then((jsonResponse) => {
-    const apiKey = jsonResponse.api_key.key;
-    // get token
-    let options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
-    // fetch(`/session/csrf`, options)
-    // .then(response => {return response.json();})
-    ajax(`/session/csrf`, options)
-    .then(jsonResponse => {
-      // get session
-      const csrf = jsonResponse.csrf;
-      if (window.localStorage) {
-        window.localStorage.setItem('csrf', csrf);
-        window.localStorage.setItem('user', login);
-      } else {
-        window.sessionStorage.csrf = csrf;
-        window.sessionStorage.user = login;
-      }
-      options = {
-        type: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrf,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        dataType: 'json',
-        data: {
-          login,
-          password,
-        },
-      };
-      // fetch(`/session/`, options)
-      // .then(response => {return response.json()})
-      ajax(`/session`, options)
-      .then(jsonResponse => {
+    .then(function(jsonResponse){
+      apiKey = jsonResponse.api_key.key;
+      // get token
+      // fetch(`/session/csrf`, options)
+      // .then(response => {return response.json();})
+      return ajax(`/session/csrf`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+    }).then(function(jsonResponse) {
+        // get session
+        csrf = jsonResponse.csrf;
+        if (window.localStorage) {
+          window.localStorage.setItem('csrf', csrf);
+          window.localStorage.setItem('user', login);
+        } else {
+          window.sessionStorage.csrf = csrf;
+          window.sessionStorage.user = login;
+        }
+
         window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
-      })
-      .catch(error => console.error(error));
-    })
-    .catch(error => console.error(error));
-  })
-  .catch(error => console.error(error));
+        
+        options = {
+          type: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrf,
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+          dataType: 'json',
+          data: JSON.stringify({login, password,}),
+        };
+        
+        // fetch(`/session/`, options)
+        // .then(response => {return response.json()})
+        return ajax(`/session`, options)
+      }).then(function(jsonResponse) {
+          window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
+      }).catch(console.error);
 }
 
 export default Ember.Controller.extend(ModalFunctionality, {
