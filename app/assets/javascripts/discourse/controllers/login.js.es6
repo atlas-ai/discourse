@@ -63,7 +63,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
         
         // fetch(`/session/`, options)
         // .then(response => {return response.json()})
-        return ajax(`/session`, options)
+        return ajax(`/session/`, options)
       }).then(function(jsonResponse) {
           window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
       }).catch(console.error);
