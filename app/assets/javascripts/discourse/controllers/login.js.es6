@@ -49,8 +49,6 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           window.sessionStorage.csrf = csrf;
           window.sessionStorage.user = login;
         }
-
-        window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
         
         options = {
           type: 'POST',
