@@ -26,18 +26,21 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
   const api_key = 'api_key=' + API_KEY;
   const url = generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
   let options = {
-    method: 'POST',
+    type: 'POST',
   }
-  fetch(url, options)
-  .then((response) => {
-    return response.json();
-  })
+  
+  // fetch(url, options)
+  // .then((response) => {
+  //   return response.json();
+  // })
+  ajax(url, options)
   .then((jsonResponse) => {
     const apiKey = jsonResponse.api_key.key;
     // get token
     options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
-    fetch(`/session/csrf`, options)
-    .then(response => {return response.json();})
+    // fetch(`/session/csrf`, options)
+    // .then(response => {return response.json();})
+    ajax(`/session/csrf`, options)
     .then(jsonResponse => {
       // get session
       const csrf = jsonResponse.csrf;
@@ -49,7 +52,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
         window.sessionStorage.user = login;
       }
       options = {
-        method: 'POST',
+        type: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrf,
@@ -60,8 +63,9 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           password,
         }),
       };
-      fetch(`/session/`, options)
-      .then(response => {return response.json()})
+      // fetch(`/session/`, options)
+      // .then(response => {return response.json()})
+      ajax(`/session/`, options)
       .then(jsonResponse => {
         window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
       })
