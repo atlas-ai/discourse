@@ -25,19 +25,16 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
   const api_username = 'api_username=' + API_USERNAME;
   const api_key = 'api_key=' + API_KEY;
   const url = generate_api_key_url + '?' + api_username + '&' + api_key + '&' + `username=${login}`;
-  let options = {
-    type: 'POST',
-  }
   
   // fetch(url, options)
   // .then((response) => {
   //   return response.json();
   // })
-  ajax(url, options)
+  ajax(url, { type: 'POST'})
   .then((jsonResponse) => {
     const apiKey = jsonResponse.api_key.key;
     // get token
-    options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
+    let options = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
     // fetch(`/session/csrf`, options)
     // .then(response => {return response.json();})
     ajax(`/session/csrf`, options)
@@ -59,14 +56,14 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           'X-Requested-With': 'XMLHttpRequest',
         },
         dataType: 'json',
-        data:{
+        data: {
           login,
           password,
         },
       };
       // fetch(`/session/`, options)
       // .then(response => {return response.json()})
-      ajax(`/session/`, options)
+      ajax(`/session`, options)
       .then(jsonResponse => {
         window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
       })
