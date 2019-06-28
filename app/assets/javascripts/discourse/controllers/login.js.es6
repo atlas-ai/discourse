@@ -42,13 +42,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
     }).then(function(jsonResponse) {
         // get session
         csrf = jsonResponse.csrf;
-        if (window.localStorage) {
-          window.localStorage.setItem('csrf', csrf);
-          window.localStorage.setItem('user', login);
-        } else {
-          window.sessionStorage.csrf = csrf;
-          window.sessionStorage.user = login;
-        }
+
         
         let options = {
           type: 'POST',
@@ -64,9 +58,17 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
         // fetch(`/session/`, options)
         // .then(response => {return response.json()})
         return ajax(`/session/`, options)
-      }).then(function(jsonResponse) {
-          window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
-      }).catch(console.error);
+    }).then(function(jsonResponse) {
+        if (window.localStorage) {
+          window.localStorage.setItem('csrf', csrf);
+          window.localStorage.setItem('user', login);
+        } else {
+          window.sessionStorage.csrf = csrf;
+          window.sessionStorage.user = login;
+        }
+        window.location.href = `/landing-page/${login}/${apiKey}/${encodeURIComponent(csrf)}/`;
+        return jsonResponse
+    }).catch(console.error);
 }
 
 export default Ember.Controller.extend(ModalFunctionality, {
