@@ -50,7 +50,7 @@ function redirectScoreboard(userid, login, password='majorsapp1234') {
           window.sessionStorage.user = login;
         }
         
-        options = {
+        let options = {
           type: 'POST',
           headers: {
             'Content-Type': 'application/json',
